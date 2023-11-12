@@ -16,15 +16,18 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
  * arcade steering.
  */
 public class Robot extends TimedRobot {
+  //Declare all the Spark Objects
   private final Spark leftFront = new Spark(2);
   private final Spark leftBack = new Spark(3);
   private final Spark rightFront = new Spark(1);
   private final Spark rightBack = new Spark(0);
   private final Spark elevator = new Spark(4);
-
+  //Because there are two motors in a gearbox that run in the same direction, it makes more sense to assign them to a motor group with MotorControllerGroup
   private final MotorControllerGroup leftGroup = new MotorControllerGroup(leftFront, leftBack);
   private final MotorControllerGroup rightGroup = new MotorControllerGroup(rightFront, rightBack);
+  //WPI provides a differential drive class where it takes in a left and right side. We can give it each motor group
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftGroup, rightGroup);
+  //Declares an XBox Controller object on USB Port 0
   private final XboxController m_stick = new XboxController(0);
 
 
@@ -42,11 +45,10 @@ public class Robot extends TimedRobot {
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
     
- 
+    //Drive the elevator motor speed by setting the Right X Box Joystick multipled by 0.8
     elevator.set(-m_stick.getRightY() * 0.8);
-  
-    
-    
+
+    //Differential drive has built in arcadeDrive method to take in both X and Y analog sticks to drive.
     m_robotDrive.arcadeDrive(m_stick.getLeftY()*0.5, m_stick.getLeftX()*0.5);
   }
 }
